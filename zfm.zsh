@@ -2,7 +2,14 @@ function __zfm_select_bookmarks()
 {
     setopt localoptions pipefail no_aliases 2> /dev/null
     local opts="--reverse --no-sort --cycle --height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS"
-    __zfm_decorate | FZF_DEFAULT_OPTS="$1 ${opts}" fzf | awk '{ print $1 }'
+    __zfm_decorate | FZF_DEFAULT_OPTS="$@ ${opts}" fzf | awk '{ print $1 }'
+}
+
+function __zfm_select_with_query()
+{
+    setopt localoptions pipefail no_aliases 2> /dev/null
+    local opts="--reverse --no-sort --cycle --height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS"
+    __zfm_decorate | FZF_DEFAULT_OPTS="${opts}" fzf -q "$@" -1 -0 | awk '{ print $1 }'
 }
 
 function __zfm_filter_files()
@@ -151,6 +158,9 @@ function zfm()
             ! [[  -z "${@:2}" ]] && echo "Invalid option '${@:2}' for '$1'" && return 1
             ${EDITOR:-vim} "$bookmarks_file"
             ;;
+        'jump')
+            cat "$bookmarks_file" | __zfm_filter_dirs | __zfm_select_with_query "${@:2}"
+            ;;
         *)
             echo "$usage" >&2
             echo "Unknown command $1"
@@ -193,3 +203,18 @@ return $ret
 }
 zle     -N    zfm-cd-to-bookmark
 bindkey '^P' zfm-cd-to-bookmark
+
+#######################################################################
+# f - jump to directory with query
+function f()
+{
+    if [ -z "$@" ]; then
+        local dir=$(zfm select --dirs)
+    else
+        local dir=$(zfm jump "$@")
+    fi
+    if [[ -z "$dir" ]]; then
+        return 0
+    fi
+    cd "$dir"
+}
