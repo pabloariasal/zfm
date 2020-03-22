@@ -3,13 +3,17 @@
 zfm is a minimal command line bookmark manager for zsh built on top of [fzf](https://github.com/junegunn/fzf).
 It lets you bookmark files and directories in your system and rapidly access them.
 
-It's intended to be a less intrusive alternative to `z`, `autojump` or `fasd` that doesn't require any setup, doesn't pollute your prompt command, and gives you full control over your bookmarks.
+It's intended to be a less intrusive alternative to `z`, `autojump` or `fasd` that doesn't pollute your prompt command or create bookmarks behind the scenes: you have full control over what gets bookmarked and when, like bookmarks on a web browser.
 
 # Installation
 
+## Install fzf
+
 `zfm` is built on top of `fzf` so you must install that first. Follow the instructions [here](https://github.com/junegunn/fzf#installation).
 
-## Oh My Zsh
+## Install zfm
+
+### Oh My Zsh
 
 1. Clone the repo in Oh My Zsh's plugin directory:
 
@@ -23,7 +27,7 @@ git clone https://github.com/pabloariasal/zfm ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}
 plugins=(zfm)
 ```
 
-## Antigen
+### Antigen
 
 Add this to your `.zshrc`:
 
@@ -31,7 +35,7 @@ Add this to your `.zshrc`:
 antigen bundle pabloariasal/zfm
 ```
 
-## Manual (Git Clone)
+### Manual (Git Clone)
 
 1. Clone the repo
 
@@ -106,7 +110,7 @@ alias of='vim $(zfm select --files --multi)'
 ```
 Typing `of` will open a selection menu with all bookmarked files and directly open the selection in vim.
 
-The option `--multi1` allows you to select multiple entries.
+The option `--multi` allows you to select multiple entries.
 
 ### Edit Bookmarks
 
@@ -135,15 +139,14 @@ This will open your current text editor (as defined by `EDITOR`) and let you man
 
 | Key Binding | Description |
 | --- | --- |
-| `ctrl+p` | insert selection into the current prompt |
-| `ctrl+b` | jump to selected directory               |
+| `ctrl+b` | insert selection into the current prompt |
+| `ctrl+p` | jump to selected directory               |
 
 # F.A.Q
 
 ### Why not `autojump`, `z`, `fasd` and others?
 
-Because explicit is better than implicit. I don't want every single directory I visit to be bookmarked. I don't want to 
-I want to decide what gets bookmarked, when and which order.
+Because explicit is better than implicit. I don't want every single directory I visit to be bookmarked, I know which directories I visit the most and which filesI need rapid access to.
 
 ### I don't like the default key bindings, can I change them?
 
@@ -156,6 +159,8 @@ bindkey -r '^B'
 Or change them to something else:
 
 ```
+bindkey -r '^P'
+bindkey -r '^B'
 bindkey '^A' zfm-cd-to-bookmark
 bindkey '^E' zfm-insert-bookmark
 ```
