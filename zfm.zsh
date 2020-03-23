@@ -74,7 +74,7 @@ function __zfm_add_items_to_file()
 {
     for var in "${@:2}"
     do
-        local item=$(realpath $var)
+        local item=${var:A}
         if [ ! -e "$item" ] && [ ! -d "$item" ]; then
             echo "$item" does not exist!
             return 1
