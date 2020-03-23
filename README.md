@@ -79,7 +79,7 @@ $ zfm list --dirs
 ```
 ### Select Bookmarks
 
-By pressing `ctrl+b`, a fzf pane will open and let you fuzzy-select a bookmark (or multiple) and insert them into the current command line:
+Pressing `ctrl+b` will open an fzf pane and let you fuzzy-select a bookmark (or multiple) and insert them into the current command line:
 
 ![](misc/bookmark_selection.png)
 
@@ -87,23 +87,23 @@ By pressing `ctrl+b`, a fzf pane will open and let you fuzzy-select a bookmark (
 
 ### `cd` into a bookmarked directory
 
-Pressing `ctrl+p` will let you select a bookmarked directory and directly jump to it:
+Pressing `ctrl+p` will open a selection menu with all your bookmarked directories and directly jump to the directory you have selected:
 
 ![](misc/select_dir.png)
 
 ![](misc/changed_dir.png)
 
-Alternatively, you can type `f` followed by a pattern to directly jump to the directory matching the pattern (like `autojump`)
+Alternatively, you can type `f` followed by a pattern to directly jump to the directory matching the pattern (like `autojump`):
 
 ```sh
 $ f down
 /home/pablo/Downloads$
 ```
-If the pattern is ambiguous a selection menu will be opened will the possible options.
+If the pattern is ambiguous a selection menu will be opened with the possible options.
 
 ### Use in custom scripts
 
-For example, you can create an alias to open a bookmark with vim by adding this to your `.zshrc`
+For example, you can create an alias to open a bookmarked file with vim by adding this to your `.zshrc`
 
 ```sh
 alias of='vim $(zfm select --files --multi)'
@@ -130,6 +130,7 @@ This will open your current text editor (as defined by `EDITOR`) and let you man
 | `zfm list` | List bookmarks |
 | `zfm add <path> [<path>...]` | Add a bookmark |
 | `zfm select` | Open an fzf selection menu and print selection to stdout |
+| `zfm query <pattern>` | Query bookmark matching `pattern` and print match to stdout. Selection menu will open if match is ambiguous |
 | `zfm edit` | Open and edit the bookmarks file |
 | `zfm fix` | Remove bookmarked entries that no longer exist in the filesystem |
 | `zfm clear` | Remove all bookmarks |

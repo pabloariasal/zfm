@@ -101,7 +101,8 @@ commands:
 
 list [--files] [--dirs]                 list bookmarks
 add <path> [paths...]                   bookmark items
-select [--files] [--dirs] [--multi]     select bookmark(s)
+select [--files] [--dirs] [--multi]     select bookmark(s) and print selection to sdtout
+query <pattern>                         Query bookmark matching <pattern> and print match to stdout. Selection menu will open if match is ambiguous.
 edit                                    edit bookmarks file
 fix                                     remove bookmarked that no longer exist
 clear                                   clear all bookmarks
@@ -145,6 +146,16 @@ function zfm()
         'add')
             __zfm_add_items_to_file "$bookmarks_file" "${@:2}" || return 1
             ;;
+        'query')
+            __zfm_check_regex "$1" '(--files|--dirs)' "${@:3}" || return 1
+            if [[ $* == *--files* ]]; then
+                cat "$bookmarks_file" | __zfm_filter_files | __zfm_select_with_query "$2"
+            elif [[ $* == *--dirs* ]]; then
+                cat "$bookmarks_file" | __zfm_filter_dirs | __zfm_select_with_query "$2"
+            else
+                cat "$bookmarks_file" | __zfm_select_with_query "$2"
+            fi
+            ;;
         'fix')
             ! [[  -z "${@:2}" ]] && echo "Invalid option '${@:2}' for '$1'" && return 1
             __zfm_cleanup "$bookmarks_file"
@@ -157,9 +168,6 @@ function zfm()
         'edit')
             ! [[  -z "${@:2}" ]] && echo "Invalid option '${@:2}' for '$1'" && return 1
             ${EDITOR:-vim} "$bookmarks_file"
-            ;;
-        'jump')
-            cat "$bookmarks_file" | __zfm_filter_dirs | __zfm_select_with_query "${@:2}"
             ;;
         *)
             echo "$usage" >&2
@@ -211,7 +219,7 @@ function f()
     if [ -z "$@" ]; then
         local dir=$(zfm select --dirs)
     else
-        local dir=$(zfm jump "$@")
+        local dir=$(zfm query "$@")
     fi
     if [[ -z "$dir" ]]; then
         return 0
