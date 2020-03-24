@@ -113,6 +113,11 @@ options:
 --files                                 restrict to files only
 --dirs                                  restrict to dirs only
 --multi                                 allow multiple selection of items
+
+Default Keybindings:
+
+Ctrl+P                                  Select a bookmarked directory and jump to it
+Ctrl+O                                  Select one or multiple bookmarks and insert them into the current command line
 "
 
 function zfm()
@@ -194,7 +199,7 @@ function zfm-insert-bookmark()
     __zfm_append_to_prompt "$(zfm select --multi)"
 }
 zle     -N    zfm-insert-bookmark
-bindkey '^B' zfm-insert-bookmark
+bindkey '^O' zfm-insert-bookmark
 
 #######################################################################
 # CTRL-P - cd into bookmarked directory

@@ -79,7 +79,7 @@ $ zfm list --dirs
 ```
 ### Select Bookmarks
 
-Pressing `ctrl+b` will open an fzf pane and let you fuzzy-select a bookmark (or multiple) and insert them into the current command line:
+Pressing `ctrl+o` will open an fzf fuzzy selection menu and insert your selection(s) into the current command line:
 
 ![](misc/bookmark_selection.png)
 
@@ -140,7 +140,7 @@ This will open your current text editor (as defined by `EDITOR`) and let you man
 
 | Key Binding | Description |
 | --- | --- |
-| `ctrl+b` | insert selection into the current prompt |
+| `ctrl+o` | Select one or multiple bookmarks and insert them into the current command line |
 | `ctrl+p` | jump to selected directory               |
 
 # F.A.Q
@@ -155,13 +155,13 @@ Sure, you can unbind them by putting this on your `zshrc`:
 
 ```
 bindkey -r '^P'
-bindkey -r '^B'
+bindkey -r '^O'
 ```
 Or change them to something else:
 
 ```
 bindkey -r '^P'
-bindkey -r '^B'
+bindkey -r '^O'
 bindkey '^A' zfm-cd-to-bookmark
 bindkey '^E' zfm-insert-bookmark
 ```
