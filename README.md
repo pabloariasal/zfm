@@ -129,12 +129,20 @@ This will open your current text editor (as defined by `EDITOR`) and let you man
 | --- | --- |
 | `zfm list` | List bookmarks |
 | `zfm add <path> [<path>...]` | Add a bookmark |
-| `zfm select` | Open an fzf selection menu and print selection to stdout |
-| `zfm query <pattern>` | Query bookmark matching `pattern` and print match to stdout. Selection menu will open if match is ambiguous |
+| `zfm select` | Open selection menu and print selection to stdout |
+| `zfm query <pattern>` | Print bookmark matching `pattern` to stdout. Selection menu will open if match is ambiguous |
 | `zfm edit` | Open and edit the bookmarks file |
 | `zfm fix` | Remove bookmarked entries that no longer exist in the filesystem |
 | `zfm clear` | Remove all bookmarks |
 | `f <pattern>` | Jump to bookmark directory matching `pattern`, open selection if ambiguous  |
+
+# Options
+
+| Option | Description | Available for |
+| --- | --- | --- |
+| `--files` | Restrict to just files | `query`, `list`, `select` |
+| `--dirs` | Restrict to just dirs | `query`, `list`, `select` |
+| `--multi` | Allow selecting multiple items | `select` |
 
 # Key Bindings
 
@@ -147,7 +155,7 @@ This will open your current text editor (as defined by `EDITOR`) and let you man
 
 ### Why not `autojump`, `z`, `fasd` and others?
 
-Because explicit is better than implicit. I don't want every single directory I visit to be bookmarked, I know which directories I visit the most and which filesI need rapid access to.
+Because explicit is better than implicit. I don't want every single directory I visit to be bookmarked, I know which directories I visit the most and which files I need rapid access to.
 
 ### I don't like the default key bindings, can I change them?
 

@@ -152,11 +152,10 @@ function zfm()
             __zfm_add_items_to_file "$bookmarks_file" "${@:2}" || return 1
             ;;
         'query')
-            __zfm_check_regex "$1" '(--files|--dirs)' "${@:3}" || return 1
-            if [[ $* == *--files* ]]; then
-                cat "$bookmarks_file" | __zfm_filter_files | __zfm_select_with_query "$2"
-            elif [[ $* == *--dirs* ]]; then
-                cat "$bookmarks_file" | __zfm_filter_dirs | __zfm_select_with_query "$2"
+            if [[ "$2" == "--files" ]]; then
+                cat "$bookmarks_file" | __zfm_filter_files | __zfm_select_with_query "${@:3}"
+            elif [[ "$2" == "--dirs" ]]; then
+                cat "$bookmarks_file" | __zfm_filter_dirs | __zfm_select_with_query "${@:3}"
             else
                 cat "$bookmarks_file" | __zfm_select_with_query "$2"
             fi
@@ -224,7 +223,7 @@ function f()
     if [ -z "$@" ]; then
         local dir=$(zfm select --dirs)
     else
-        local dir=$(zfm query "$@")
+        local dir=$(zfm query --dirs "$@")
     fi
     if [[ -z "$dir" ]]; then
         return 0
