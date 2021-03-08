@@ -198,7 +198,9 @@ function zfm-insert-bookmark()
     __zfm_append_to_prompt "$(zfm select --multi)"
 }
 zle     -N    zfm-insert-bookmark
-bindkey '^O' zfm-insert-bookmark
+if [[ -z $ZFM_NO_BINDINGS ]]; then
+    bindkey '^O' zfm-insert-bookmark
+fi
 
 #######################################################################
 # CTRL-P - cd into bookmarked directory
@@ -214,7 +216,9 @@ zle reset-prompt
 return $ret
 }
 zle     -N    zfm-cd-to-bookmark
-bindkey '^P' zfm-cd-to-bookmark
+if [[ -z $ZFM_NO_BINDINGS ]]; then
+    bindkey '^P' zfm-cd-to-bookmark
+fi
 
 #######################################################################
 # f - jump to directory with query

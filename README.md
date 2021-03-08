@@ -1,6 +1,6 @@
 # zfm - Zsh Fuzzy Marks
 
-zfm is a minimal command line bookmark manager for zsh built on top of [fzf](https://github.com/junegunn/fzf).
+zfm is a minimal command line bookmark manager for Zsh built on top of [fzf](https://github.com/junegunn/fzf).
 It lets you bookmark files and directories in your system and rapidly access them.
 
 It's intended to be a less intrusive alternative to `z`, `autojump` or `fasd` that doesn't pollute your prompt command or create bookmarks behind the scenes: you have full control over what gets bookmarked and when, like bookmarks on a web browser.
@@ -51,7 +51,7 @@ source ~/.zsh/zfm/zfm.zsh
 
 # Usage
 
-### Bookmark a directory or a file
+### Bookmark files or directories
 
 ```sh
 $ zfm add ~/Downloads ~/Documents/wallpaper.png
@@ -151,6 +151,21 @@ This will open your current text editor (as defined by `EDITOR`) and let you man
 | `ctrl+o` | Select one or multiple bookmarks and insert them into the current command line |
 | `ctrl+p` | jump to selected directory               |
 
+
+# Variables
+
+## `ZFM_NO_BINDINGS`
+
+Per default, `zfm` creates two key bindings, `ctrl-p` and `ctrl-o` for launching the widgets `zfm-cd-to-bookmark` and `zfm-insert-bookmark`, respectively.
+
+To disable the creation of key bindings, you can set the environment variable `ZFM_NO_BINDINGS` in your `zshrc`:
+
+```
+export ZFM_NO_BINDINGS=1
+```
+
+or if you wish so, you can rebind the widgets to something else see [F.A.Q](#faq).
+
 # F.A.Q
 
 ### Why not `autojump`, `z`, `fasd` and others?
@@ -159,13 +174,14 @@ Because explicit is better than implicit. I don't want every single directory I 
 
 ### I don't like the default key bindings, can I change them?
 
-Sure, you can unbind them by putting this on your `zshrc`:
+Sure, you can set the `ZFM_NO_BINDINGS` environment variable or manually unbind them by putting this on your `zshrc`:
 
 ```
 bindkey -r '^P'
 bindkey -r '^O'
 ```
-Or change them to something else:
+
+You can also rebind them to something more suitable to you:
 
 ```
 bindkey -r '^P'
@@ -173,4 +189,4 @@ bindkey -r '^O'
 bindkey '^A' zfm-cd-to-bookmark
 bindkey '^E' zfm-insert-bookmark
 ```
-*Tip:* you can use `Ctrl+v` on your terminal window to display escape sequences of key bindings.
+*Tip:* you can use `ctrl+v` on your terminal window to display escape sequences of key bindings.
