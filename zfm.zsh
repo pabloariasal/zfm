@@ -185,12 +185,12 @@ function zfm()
 function __zfm_append_to_prompt()
 {
     if [[ -z "$1" ]]; then
-        zle fzf-redraw-prompt
+        zle reset-prompt
         return 0
     fi
     LBUFFER="${LBUFFER}$(echo "$1" | tr '\r\n' ' '| sed -e 's/\s$//')"
     local ret=$?
-    zle fzf-redraw-prompt
+    zle reset-prompt
     return $ret
 }
 function zfm-insert-bookmark()
@@ -210,7 +210,7 @@ if [[ -z "$dir" ]]; then
 fi
 cd "$dir"
 local ret=$?
-zle fzf-redraw-prompt
+zle reset-prompt
 return $ret
 }
 zle     -N    zfm-cd-to-bookmark
