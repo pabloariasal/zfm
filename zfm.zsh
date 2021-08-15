@@ -127,7 +127,8 @@ ZFM_BOOKMARKS_FILE                      Setting this allows the user to choose w
 function set_bookmarks_file() 
 {
     # CHANGE: If ZFM_BOOKMARKS_FILE is set then use that, otherwise fall back to the default location
-    [[ $ZFM_BOOKMARKS_FILE ]] && local bookmarks_file="$ZFM_BOOKMARKS_FILE" || local bookmarks_file="${HOME}/.zfm.txt"
+        # Switched to more robust POSIX compliant test 
+    [[ -n "${ZFM_BOOKMARKS_FILE+x}" ]] && local bookmarks_file="$ZFM_BOOKMARKS_FILE" || local bookmarks_file="${HOME}/.zfm.txt"
     
     # CHANGE: Redirect stdout stderr so we can print a nicer error. 
     if [ ! -e "$bookmarks_file" ]; then
