@@ -118,14 +118,43 @@ Default Keybindings:
 
 Ctrl+P                                  Select a bookmarked directory and jump to it
 Ctrl+O                                  Select one or multiple bookmarks and insert them into the current command line
+
+ENV Configuration:
+ZFM_BOOKMARKS_FILE                      Setting this allows the user to choose where the ZFM_BOOKMARKS_FILE should be located. e.g.: export ZFM_BOOKMARKS_FILE=\"$HOME\.dots\zmf.txt\"
 "
 
-function zfm()
+# CHANGE: Added logic to it's own funnction
+function set_bookmarks_file() 
 {
-    local bookmarks_file="${HOME}/.zfm.txt"
+    # CHANGE: If ZFM_BOOKMARKS_FILE is set then use that, otherwise fall back to the default location
+        # Switched to more robust POSIX compliant test 
+    [[ -n "${ZFM_BOOKMARKS_FILE+x}" ]] && local bookmarks_file="$ZFM_BOOKMARKS_FILE" || local bookmarks_file="${HOME}/.zfm.txt"
+    
+    # CHANGE: Redirect stdout stderr so we can print a nicer error. 
     if [ ! -e "$bookmarks_file" ]; then
-        touch "$bookmarks_file"
+        touch "$bookmarks_file" &> /dev/null
     fi
+    
+    #CHANGE: Check if the bookmark file exists, if not give likely reasons as to why. We could ask the user where they want it and then ask them to add it or have the program append it to their zshrc.
+    if [ ! -f "$bookmarks_file" ]; then
+        printf "ZFM failed to create a bookmarks file.\n\n ZFM_BOOKMARKS_FILE is currently set to '${ZFM_BOOKMARKS_FILE}' if the ZFM_BOOKMARKS_FILE is variable has been set it has likely not been done correctly, the path does not exists, the variable is not exported, or the zfm cannot access the set directory. See zfm --help for more information.\n"
+        return 1
+    fi
+    
+    # "Return" the value
+    echo $bookmarks_file
+
+}
+
+function zfm()
+{   
+    
+    bookmarks_file=$(set_bookmarks_file)
+
+    # NOTE: Maybe we should switch this to GETOPTS, which has support for 
+        # Flags and Params like `zfm -a .dots`but does not support long options 
+        # like --help or --dirs
+
     case "$1" in
         'list')
             __zfm_check_regex "$1" '(--files|--dirs)' "${@:2}" || return 1
@@ -149,6 +178,8 @@ function zfm()
             fi
             ;;
         'add')
+            # CHANGE: In case you are using multiple files, show where it's being added
+            echo "Added to: $bookmarks_file"
             __zfm_add_items_to_file "$bookmarks_file" "${@:2}" || return 1
             ;;
         'query')
@@ -172,6 +203,10 @@ function zfm()
         'edit')
             ! [[  -z "${@:2}" ]] && echo "Invalid option '${@:2}' for '$1'" && return 1
             ${EDITOR:-vim} "$bookmarks_file"
+            ;;
+        # CHANGE: Added Help Option
+        'help')
+            echo "$usage" >&2
             ;;
         *)
             echo "$usage" >&2
