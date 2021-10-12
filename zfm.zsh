@@ -114,13 +114,15 @@ options:
 --dirs                                  restrict to dirs only
 --multi                                 allow multiple selection of items
 
-Default Keybindings:
+keybindings:
 
 Ctrl+P                                  Select a bookmarked directory and jump to it
 Ctrl+O                                  Select one or multiple bookmarks and insert them into the current command line
 
-ENV Configuration:
-ZFM_BOOKMARKS_FILE                      Setting this allows the user to choose where the ZFM_BOOKMARKS_FILE should be located. e.g.: export ZFM_BOOKMARKS_FILE=\"$HOME\.dots\zmf.txt\"
+ENV configuration:
+
+ZFM_NO_BINDINGS                         Disabled creation of bindings
+ZFM_BOOKMARKS_FILE                      Bookmarks file. Defaults to '~/.zfm.txt'
 "
 
 # CHANGE: Added logic to it's own funnction
