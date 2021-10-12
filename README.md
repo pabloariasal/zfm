@@ -160,11 +160,19 @@ Per default, `zfm` creates two key bindings, `ctrl-p` and `ctrl-o` for launching
 
 To disable the creation of key bindings, you can set the environment variable `ZFM_NO_BINDINGS` in your `zshrc`:
 
-```
+```shell
 export ZFM_NO_BINDINGS=1
 ```
 
 or if you wish so, you can rebind the widgets to something else see [F.A.Q](#faq).
+
+## `ZFM_BOOKMARKS_FILE`
+
+Sets the bookmarks file. Defaults to `~/.zfm.txt`
+
+```shell
+export ZFM_BOOKMARKS_FILE='~/.my_bookmarks.txt'
+```
 
 # F.A.Q
 
