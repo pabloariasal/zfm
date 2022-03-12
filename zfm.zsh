@@ -226,15 +226,16 @@ fi
 
 #######################################################################
 # CTRL-P - cd into bookmarked directory
-zfm-cd-to-bookmark() {
+function zfm-cd-to-bookmark() {
 local dir=$(zfm select --dirs)
 if [[ -z "$dir" ]]; then
     zle redisplay
     return 0
 fi
-cd "$dir"
 local ret=$?
 zle reset-prompt
+BUFFER="cd $dir"
+zle accept-line
 return $ret
 }
 zle     -N    zfm-cd-to-bookmark
