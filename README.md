@@ -86,7 +86,7 @@ This will open a selection menu with all your bookmarks:
 
 ![](misc/bookmark_selection.png)
 
-... and enter your selection(s) into the current command line buffer:
+and enter your selection(s) into the current command line buffer:
 
 ![](misc/bookmark_inserted.png)
 
@@ -98,7 +98,7 @@ This will open a selection menu with all your bookmarked directories:
 
 ![](misc/select_dir.png)
 
-...and directly jump to the directory you have selected:
+and directly jump to the directory you have selected:
 
 ![](misc/changed_dir.png)
 
