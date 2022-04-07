@@ -3,7 +3,7 @@
 `zfm` is a command line bookmark manager for Zsh built on top of [fzf](https://github.com/junegunn/fzf).
 It lets you bookmark files and directories in your system and rapidly access them.
 
-It's intended to be a less intrusive alternative to `z`, `autojump` or `fasd` that doesn't hijack your `PS1` prompt command or create bookmarks behind the scenes: you have full control over what gets bookmarked and when, like bookmarks on a web browser.
+It's intended to be a less intrusive alternative to `z`, `autojump` or `fasd` that doesn't pollute your prompt command (`PS1`) or create bookmarks behind the scenes: you have full control over what gets bookmarked and when, like bookmarks on a web browser.
 
 # Installation
 
@@ -83,9 +83,11 @@ $ zfm list --dirs
 
 To enter a bookmark into the current command line buffer, press `ctrl+o`.
 This will open a selection menu with all your bookmarks:
+
 ![](misc/bookmark_selection.png)
 
 ... and enter your selection(s) into the current command line buffer:
+
 ![](misc/bookmark_inserted.png)
 
 #### `cd` into a bookmarked directory
@@ -93,9 +95,11 @@ This will open a selection menu with all your bookmarks:
 Off course you can cd into a bookmarked directory, just press `ctrl+p`.
 
 This will open a selection menu with all your bookmarked directories:
+
 ![](misc/select_dir.png)
 
 ...and directly jump to the directory you have selected:
+
 ![](misc/changed_dir.png)
 
 Alternatively, you can type `f` followed by a pattern to directly jump to the directory matching the pattern (like `autojump`):
