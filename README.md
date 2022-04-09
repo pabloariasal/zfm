@@ -51,13 +51,13 @@ source ~/.zsh/zfm/zfm.zsh
 
 # Usage
 
-### Bookmark files or directories
+## Bookmark files and directories
 
 ```sh
 $ zfm add ~/Downloads ~/Documents/wallpaper.png
 ```
 
-### List bookmarks
+## List bookmarks
 
 ```sh
 $ zfm list
@@ -77,9 +77,8 @@ or directories:
 $ zfm list --dirs
 /home/pablo/Downloads  [d]
 ```
-### Accessing Bookmarks
 
-#### Enter a bookmark into the command line
+## Enter a bookmark into the current command line buffer
 
 To enter a bookmark into the current command line buffer, press `ctrl+o`.
 This will open a selection menu with all your bookmarks:
@@ -90,7 +89,7 @@ and enter your selection(s) into the current command line buffer:
 
 ![](misc/bookmark_inserted.png)
 
-#### `cd` into a bookmarked directory
+## `cd` into a bookmarked directory
 
 Off course you can cd into a bookmarked directory, just press `ctrl+p`.
 
@@ -110,11 +109,11 @@ $ f down
 ```
 If the pattern is ambiguous a selection menu will be opened with the possible options.
 
-### Use in custom scripts
+## Use in custom scripts
 
 You can use `zfm` in scripts and aliases.
 
-#### Example 1: Open a bookmarked file in Vim
+### Example: Open a bookmarked file in Vim
 For example, you can create an alias to open a bookmarked file with vim by adding this to your `.zshrc`:
 
 ```sh
@@ -124,7 +123,7 @@ Typing `of` will open a selection menu with all bookmarked files and directly op
 
 The option `--multi` allows you to select multiple entries.
 
-#### Example 2: Open a bookmarked file using `dmenu`
+### Example: Open a bookmarked file using `dmenu`
 You can create a script that opens a bookmarked file in dmenu:
 
 ```
@@ -136,7 +135,7 @@ gvim "$selection"
 alacritty -e vim "$selection"
 ```
 
-### Edit Bookmarks
+## Edit Bookmarks
 
 You can edit your bookmarks (add, delete, reorder) with:
 
