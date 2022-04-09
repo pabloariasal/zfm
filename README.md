@@ -225,7 +225,7 @@ bindkey '^E' zfm-insert-bookmark
 If you change anything make sure to run the tests, bonus points if you enhance them:
 ## Running the Tests
 
-NOTE: you must have python 3.5 or higher installed
+**NOTE:** you must have python 3.5 or higher installed
 
 1) Install `pipenv`:
 ```sh
