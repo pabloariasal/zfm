@@ -220,3 +220,21 @@ bindkey '^A' zfm-cd-to-bookmark
 bindkey '^E' zfm-insert-bookmark
 ```
 *Tip:* you can use `ctrl+v` on your terminal window to display escape sequences of key bindings.
+
+# Contributing
+
+If you change anything make sure to run the tests, bonus points if you enhance them:
+## Running the Tests
+
+NOTE: you must have python 3.5 or higher installed
+
+1) Install `pipenv`:
+```sh
+pip install --user pipenv
+```
+
+2) Run the tests
+```sh
+cd zfm
+pipenv run pytest -q test
+```
