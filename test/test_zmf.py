@@ -141,7 +141,7 @@ def test_query(environment):
     output = invoke(['zfm', 'query', 'file_'],
                     environment.bookmarks_file)
     assert Path(output.strip()) == environment.file_a
-    output = invoke(['zfm', 'query', '--files', 'file_'],
+    output = invoke(['zfm', 'query', '--files', 'dir_b/file_a'],
                     environment.bookmarks_file)
     assert Path(output.strip()) == environment.file_a
 
