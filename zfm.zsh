@@ -257,3 +257,5 @@ function f()
     fi
     cd "$dir"
 }
+
+"$@"
