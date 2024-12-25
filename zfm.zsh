@@ -106,10 +106,10 @@ query <pattern>                         Query bookmark matching <pattern> and pr
 edit                                    edit bookmarks file
 fix                                     remove bookmarked that no longer exist
 clear                                   clear all bookmarks
+help                                    print this help message
 
 options:
 
--h,--help                               show help
 --files                                 restrict to files only
 --dirs                                  restrict to dirs only
 --multi                                 allow multiple selection of items
@@ -145,7 +145,7 @@ function zfm()
 {
     bookmarks_file=$(set_bookmarks_file)
     case "$1" in
-        'list')
+        list)
             __zfm_check_regex "$1" '(--files|--dirs)' "${@:2}" || return 1
             if [[ $* == *--files* ]]; then
                 cat "$bookmarks_file" | __zfm_filter_files | __zfm_decorate
@@ -155,7 +155,7 @@ function zfm()
                 cat "$bookmarks_file" | __zfm_decorate
             fi
             ;;
-        'select')
+        select)
             __zfm_check_regex "$1" '(--multi|--files|--dirs)' "${@:2}" || return 1
             [[ $* == *--multi* ]] && local multi="-m"
             if [[ $* == *--files* ]]; then
@@ -166,11 +166,11 @@ function zfm()
                 cat "$bookmarks_file" | __zfm_select_bookmarks "${multi}"
             fi
             ;;
-        'add')
+        add)
             echo "Added to: $bookmarks_file"
             __zfm_add_items_to_file "$bookmarks_file" "${@:2}" || return 1
             ;;
-        'query')
+        query)
             if [[ "$2" == "--files" ]]; then
                 cat "$bookmarks_file" | __zfm_filter_files | __zfm_select_with_query "${@:3}"
             elif [[ "$2" == "--dirs" ]]; then
@@ -179,25 +179,26 @@ function zfm()
                 cat "$bookmarks_file" | __zfm_select_with_query "$2"
             fi
             ;;
-        'fix')
+        fix)
             ! [[  -z "${@:2}" ]] && echo "Invalid option '${@:2}' for '$1'" && return 1
             __zfm_cleanup "$bookmarks_file"
             ;;
-        'clear')
+        clear)
             ! [[  -z "${@:2}" ]] && echo "Invalid option '${@:2}' for '$1'" && return 1
             echo "" > "$bookmarks_file"
             echo "bookmarks deleted!"
             ;;
-        'edit')
+        edit)
             ! [[  -z "${@:2}" ]] && echo "Invalid option '${@:2}' for '$1'" && return 1
             ${EDITOR:-vim} "$bookmarks_file"
             ;;
-        'help')
+        -h|--help)
             echo "$usage" >&2
             ;;
         *)
-            echo "$usage" >&2
             echo "Unknown command $1"
+            echo "$usage" >&2
+            exit 1
             ;;
     esac
 }
@@ -257,5 +258,3 @@ function f()
     fi
     cd "$dir"
 }
-
-"$@"
