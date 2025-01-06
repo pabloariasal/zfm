@@ -192,13 +192,13 @@ function zfm()
             ! [[  -z "${@:2}" ]] && echo "Invalid option '${@:2}' for '$1'" && return 1
             ${EDITOR:-vim} "$bookmarks_file"
             ;;
-        -h|--help)
+        help|-h|--help)
             echo "$usage" >&2
             ;;
         *)
             echo "Unknown command $1"
             echo "$usage" >&2
-            exit 1
+            return 1
             ;;
     esac
 }
