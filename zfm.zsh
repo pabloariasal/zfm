@@ -110,6 +110,7 @@ help                                    print this help message
 
 options:
 
+-h|--help                               print this help message
 --files                                 restrict to files only
 --dirs                                  restrict to dirs only
 --multi                                 allow multiple selection of items
