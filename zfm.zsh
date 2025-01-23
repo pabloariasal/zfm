@@ -2,14 +2,14 @@ function __zfm_select_bookmarks()
 {
     setopt localoptions pipefail no_aliases 2> /dev/null
     local opts="--reverse --exact --no-sort --cycle --height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS"
-    __zfm_decorate | FZF_DEFAULT_OPTS="$@ ${opts}" fzf | awk '{ print $1 }'
+    __zfm_decorate | FZF_DEFAULT_OPTS="$@ ${opts}" fzf | awk '{NF--; print}'
 }
 
 function __zfm_select_with_query()
 {
     setopt localoptions pipefail no_aliases 2> /dev/null
     local opts="--reverse --exact --no-sort --cycle --height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS"
-    __zfm_decorate | FZF_DEFAULT_OPTS="${opts}" fzf -q "$@" -1 -0 | awk '{ print $1 }'
+    __zfm_decorate | FZF_DEFAULT_OPTS="${opts}" fzf -q "$@" -1 -0 | awk '{NF--; print}'
 }
 
 function __zfm_filter_files()
