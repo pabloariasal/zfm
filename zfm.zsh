@@ -46,7 +46,7 @@ function __zfm_decorate()
     done | column -t
 }
 
-function __zfm_filter_non_existent()
+function __zfm_filter_existent_items()
 {
     while read line
     do
@@ -88,11 +88,10 @@ function __zfm_add_items_to_file()
 
 function __zfm_cleanup()
 {
-    local old_length=$(wc -l "$1" | cut -d\  -f 1)
-    local contents=$(cat "$1")
-    echo "$contents" | awk '!a[$0]++' | __zfm_filter_non_existent > $1
-    local new_length=$(wc -l "$1" | cut -d\  -f 1)
-    echo "removed" $(( $old_length - $new_length)) "entries"
+    local old_length=$(wc -l "$1" | awk '{print $1}')
+    cat "$1" | awk '!a[$0]++' | __zfm_filter_existent_items > $1
+    local new_length=$(wc -l "$1" | awk '{print $1}')
+    echo "removed" $(( old_length - new_length )) "entries"
 }
 
 usage="$(basename "$0") [-h] <command> [opts] -- fuzzy marks
