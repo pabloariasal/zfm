@@ -2,56 +2,56 @@ function __zfm_select_bookmarks()
 {
     setopt localoptions pipefail no_aliases 2> /dev/null
     local opts="--reverse --exact --no-sort --cycle --height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS"
-    __zfm_decorate | FZF_DEFAULT_OPTS="$@ ${opts}" fzf | awk '{ print $1 }'
+    __zfm_decorate | FZF_DEFAULT_OPTS="$@ ${opts}" fzf --with-nth=1 --delimiter=$'\t' | cut -f1
 }
 
 function __zfm_select_with_query()
 {
     setopt localoptions pipefail no_aliases 2> /dev/null
     local opts="--reverse --exact --no-sort --cycle --height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS"
-    __zfm_decorate | FZF_DEFAULT_OPTS="${opts}" fzf -q "$@" -1 -0 | awk '{ print $1 }'
+    __zfm_decorate | FZF_DEFAULT_OPTS="${opts}" fzf -q "$@" -1 -0 --with-nth=1 --delimiter=$'\t' | cut -f1
 }
 
 function __zfm_filter_files()
 {
-    while read line
+    while IFS= read -r line
     do
-        if [ -f $line ]; then
-            echo $line
+        if [ -f "$line" ]; then
+            printf '%s\n' "$line"
         fi
     done
 }
 
 function __zfm_filter_dirs()
 {
-    while read line
+    while IFS= read -r line
     do
-        if [ -d $line ]; then
-            echo $line
+        if [ -d "$line" ]; then
+            printf '%s\n' "$line"
         fi
     done
 }
 
 function __zfm_decorate()
 {
-    while read line
+    while IFS= read -r line
     do
         if [ ! -z "$line" ];then
             if [ -d "$line" ]; then
-                echo "$line" "[d]"
+                printf '%s\t[d]\n' "$line"
             elif [ -f "$line" ]; then
-                echo "$line" "[f]"
+                printf '%s\t[f]\n' "$line"
             fi
         fi
-    done | column -t
+    done
 }
 
 function __zfm_filter_non_existent()
 {
-    while read line
+    while IFS= read -r line
     do
-        if [[ -d $line ]] || [[ -e $line ]]; then
-            echo $line
+        if [[ -d "$line" ]] || [[ -e "$line" ]]; then
+            printf '%s\n' "$line"
         fi
     done
 }
@@ -88,10 +88,10 @@ function __zfm_add_items_to_file()
 
 function __zfm_cleanup()
 {
-    local old_length=$(wc -l "$1" | cut -d\  -f 1)
+    local old_length=$(wc -l < "$1")
     local contents=$(cat "$1")
-    echo "$contents" | awk '!a[$0]++' | __zfm_filter_non_existent > $1
-    local new_length=$(wc -l "$1" | cut -d\  -f 1)
+    echo "$contents" | awk '!a[$0]++' | __zfm_filter_non_existent > "$1"
+    local new_length=$(wc -l < "$1")
     echo "removed" $(( $old_length - $new_length)) "entries"
 }
 
@@ -139,7 +139,7 @@ function set_bookmarks_file()
         return 1
     fi
 
-    echo $bookmarks_file
+    echo "$bookmarks_file"
 }
 
 function zfm()
@@ -149,11 +149,11 @@ function zfm()
         list)
             __zfm_check_regex "$1" '(--files|--dirs)' "${@:2}" || return 1
             if [[ $* == *--files* ]]; then
-                cat "$bookmarks_file" | __zfm_filter_files | __zfm_decorate
+                cat "$bookmarks_file" | __zfm_filter_files | __zfm_decorate | column -ts $'\t'
             elif [[ $* == *--dirs* ]]; then
-                cat "$bookmarks_file" | __zfm_filter_dirs | __zfm_decorate
+                cat "$bookmarks_file" | __zfm_filter_dirs | __zfm_decorate | column -ts $'\t'
             else
-                cat "$bookmarks_file" | __zfm_decorate
+                cat "$bookmarks_file" | __zfm_decorate | column -ts $'\t'
             fi
             ;;
         select)
@@ -208,11 +208,20 @@ function zfm()
 # CTRL-B - insert bookmark
 function __zfm_append_to_prompt()
 {
-    if [[ -z "$1" ]]; then
+    local selection="$1"
+    if [[ -z "$selection" ]]; then
         zle reset-prompt
         return 0
     fi
-    LBUFFER="${LBUFFER}$(echo "$1" | tr '\r\n' ' '| sed -e 's/\s$//')"
+
+    local escaped_entries=()
+    local line
+    while IFS= read -r line; do
+        [[ -z "$line" ]] && continue
+        escaped_entries+=("${(q)line}")
+    done <<< "$selection"
+
+    LBUFFER+="${(j: :)escaped_entries}"
     local ret=$?
     zle reset-prompt
     return $ret
@@ -236,7 +245,7 @@ if [[ -z "$dir" ]]; then
 fi
 local ret=$?
 zle reset-prompt
-BUFFER="cd $dir"
+BUFFER="cd ${(q)dir}"
 zle accept-line
 return $ret
 }
