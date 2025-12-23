@@ -150,10 +150,10 @@ This will open your bookmarks in a text editor (as defined by `EDITOR`) and let 
 | Command | Description | Extra Options
 | --- | --- | ---
 | `zfm list` | List bookmarks | `--files`, `--dirs`
-| `zfm add <path> [<path>...]` | Add a bookmark. |
-| `zfm select` | Open selection menu with all bookmarks and print selection to stdout. | `--files`, `--dirs`, `--multi`
-| `zfm query <pattern>` | Print bookmark matching `pattern` to stdout. Selection menu will open if match is ambiguous. | `--files`, `--dirs`
-| `zfm edit` | Open and edit the bookmarks file |
+| `zfm add <path> [<path>...]` | Add bookmarks |
+| `zfm select` | Open bookmarks in FZF and print selection to stdout. | `--files`, `--dirs`, `--multi`
+| `zfm query <pattern>` | Print bookmark matching `pattern` to stdout. FZF selection menu will open if match is ambiguous. | `--files`, `--dirs`
+| `zfm edit` | Manually edit bookmarks in editor (respects EDITOR) |
 | `zfm fix` | Remove bookmarked entries that no longer exist in the filesystem |
 | `zfm clear` | Remove all bookmarks |
 | `f <pattern>` | Jump to bookmark directory matching `pattern`, open selection if ambiguous |
